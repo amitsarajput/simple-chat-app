@@ -9,7 +9,6 @@ const NAME = getOrSetFakeName();
 
 export default function App() {
   const path = window.location.pathname;
-
   const messages = path === "/all-xyz-deleted" ? useQuery(api.chat.getDeletedMessages) : useQuery(api.chat.getMessages);
   // TODO: Add mutation hook here.
   const deleteAllMessages = useMutation(api.chat.deleteAllMessages);
