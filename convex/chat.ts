@@ -12,6 +12,7 @@ export const sendMessage = mutation({
     await ctx.db.insert("messages", {
       user: args.user,
       body: args.body,
+      deleted_at: null, // default value
     });
   },
 });
@@ -20,8 +21,30 @@ export const getMessages = query({
   args: {},
   handler: async (ctx) => {
     // Get most recent messages first
-    const messages = await ctx.db.query("messages").order("desc").take(50);
+    const messages = await ctx.db.query("messages")
+    .filter((q) => q.eq(q.field("deleted_at"), null))
+    .order("desc")
+    .take(100);
     // Reverse the list so that it's in a chronological order.
     return messages.reverse();
   },
+});
+
+export const getDeletedMessages = query(async (ctx) => {
+  return await ctx.db
+    .query("messages")
+    .filter((q) => q.neq(q.field("deleted_at"), null))
+    .collect();
+});
+
+
+export const deleteAllMessages = mutation(async (ctx) => {
+  const messages = await ctx.db.query("messages").filter((q) => q.eq(q.field("deleted_at"), null)).collect();
+  const now = Date.now();
+
+  for (const message of messages) {
+    //await ctx.db.delete(message._id);
+    await ctx.db.patch(message._id, { deleted_at: now });
+
+  }
 });

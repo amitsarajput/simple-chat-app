@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
+
 import { faker } from "@faker-js/faker";
 // Import `useMutation` and `api` from Convex.
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
-
 // For demo purposes. In a real app, you'd have real user data.
 const NAME = getOrSetFakeName();
 
 export default function App() {
-  const messages = useQuery(api.chat.getMessages);
+  const path = window.location.pathname;
+
+  const messages = path === "/all-xyz-deleted" ? useQuery(api.chat.getDeletedMessages) : useQuery(api.chat.getMessages);
   // TODO: Add mutation hook here.
-  
+  const deleteAllMessages = useMutation(api.chat.deleteAllMessages);
+
   const sendMessage = useMutation(api.chat.sendMessage);
   const [newMessageText, setNewMessageText] = useState("");
 
@@ -25,6 +28,14 @@ export default function App() {
     <main className="chat">
       <header>
         <h1>Convex Chat</h1>
+        <button
+          onClick={async () => {
+            if (confirm("Are you sure you want to delete all messages?")) {
+              await deleteAllMessages();
+            }
+          }}
+          className="delete-button"
+        > Delete All Messages </button>
         <p>
           Connected as <strong>{NAME}</strong>
         </p>
@@ -36,7 +47,11 @@ export default function App() {
         >
           <div>{message.user}</div>
 
-          <p>{message.body}</p>
+          <p>{message.body}
+          { message.deleted_at? (
+            <small><br />{new Date(message.deleted_at).toLocaleString()}</small>
+            ) : null}
+          </p>
         </article>
       ))}
       <form

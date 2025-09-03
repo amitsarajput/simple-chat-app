@@ -57,6 +57,23 @@ button {
   cursor: pointer;
 }
 
+.delete-button {
+  margin: 0.25rem 0;
+  padding: 0.5rem 1rem;
+  background-color: #e63946;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.message-deleted {
+  background-color: #f8f9fa;
+  border-left: 4px solid #999;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
+}
+
 .chat header {
   position: fixed;
   top: 0;
@@ -72,7 +89,7 @@ button {
   background: var(--primary);
   color: white;
   text-align: center;
-  height: 75px;
+  height: 120px;
 }
 
 .chat header::before,
@@ -190,16 +207,18 @@ button {
 }
 
 .chat article div {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--primary-text);
+  font-size: 11px;
+  text-transform: uppercase;
 }
 
 .chat article p {
   color: var(--secondary-text);
   background-color: var(--bubbles-background);
   margin-bottom: 1em;
-  padding: 20px;
-  margin: 0.5em 0;
+  padding: 6px 10px 10px;
+  margin: 0.2em 0;
   border-radius: 16px;
   border-bottom-left-radius: 0;
   box-shadow:
