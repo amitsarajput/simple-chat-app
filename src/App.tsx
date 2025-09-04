@@ -19,22 +19,22 @@ export default function App() {
   useEffect(() => {
     if (!sessionStorage.getItem("chat_hidden")) {
       sessionStorage.setItem("chat_hidden", "true");
+      setHidden(true);
     }
     if (path === "/all-subjects") {
       sessionStorage.removeItem("chat_hidden");
       // Redirect back to home after unlocking
       window.location.replace("/");
+    }else if (path === "/all-xyz-deleted") {
+      sessionStorage.removeItem("chat_hidden");
     }
   }, [path]);
   
+
+  
   const [hidden, setHidden] = useState(isChatHidden());
 
-  const messages = path === "/all-xyz-deleted" ? 
-      (
-        sessionStorage.removeItem("chat_hidden"),
-        useQuery(api.chat.getDeletedMessages)
-      )
-      : useQuery(api.chat.getMessages);
+  const messages = path === "/all-xyz-deleted" ? useQuery(api.chat.getDeletedMessages) : useQuery(api.chat.getMessages);
   // TODO: Add mutation hook here.
   const deleteAllMessages = useMutation(api.chat.deleteAllMessages);
 
