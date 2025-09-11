@@ -29,7 +29,7 @@ export default function App() {
       sessionStorage.setItem("chat_hidden", "false");
     }else if (path === "/ses"){
       sessionStorage.clear();
-      console.log(sessionStorage.getItem("chat_hidden")===null);
+      window.location.replace("/");
     }
   }, [path]);
   
@@ -54,13 +54,18 @@ export default function App() {
     }, 0);
   }, [messages]);
 
+  const setConversationStatus = useMutation(api.chat.setConversationStatus);
+  const chatStatus = useQuery(api.chat.getConversationStatus);
+
+
+
   return (
     <main className="chat">
-      
-      {!hidden ? (
+
+      {!hidden && chatStatus==="on" ? (
         <>
         <header>
-        <h1>Convex Chat</h1>
+        <h1>Find Your Formula</h1>
         <div className="header-actions">
           <button
             onClick={async () => {
@@ -68,17 +73,28 @@ export default function App() {
                 await deleteAllMessages();
               }
             }}
-            className="delete-button"
-          > Delete All Messages </button>
+            className="header-button delete-button"
+          > Delete All</button>
           <button
             onClick={() => {
               sessionStorage.setItem("chat_hidden", "true");
               window.location.reload(); // Refresh to apply hidden state
             }}
-            className="hide-button"
+            className="header-button hide-button"
           >
-            🙈 Hide Chat
+            🙈 Hide
           </button>
+          <button
+            onClick={async () => {
+              await setConversationStatus({ chatStatus: "off" });
+              window.location.reload();
+            }}
+            
+            className="header-button hide-permanent"
+          >
+            🛑 Stop
+          </button>
+
         </div>
         <p>
           Connected as <strong>{NAME}</strong>
@@ -95,7 +111,7 @@ export default function App() {
           <p>{message.body}
           { message.deleted_at? (
             <small><br />{new Date(message.deleted_at).toLocaleString()}</small>
-            ) : null}
+            ) : <small className="msg-time"><br />{new Date(message._creationTime).toLocaleString()}</small>}
           </p>
         </article>
       ))}

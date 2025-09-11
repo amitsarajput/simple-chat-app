@@ -8,7 +8,7 @@ export const sendMessage = mutation({
     body: v.string(),
   },
   handler: async (ctx, args) => {
-    console.log("This TypeScript function is running on the server.");
+    //console.log("This TypeScript function is running on the server.");
     await ctx.db.insert("messages", {
       user: args.user,
       body: args.body,
@@ -48,3 +48,24 @@ export const deleteAllMessages = mutation(async (ctx) => {
 
   }
 });
+
+export const setConversationStatus = mutation({
+  args: { chatStatus: v.string() }, // "on" or "off"
+  handler: async (ctx, args) => {
+    const existing = await ctx.db.query("conversations").first();
+
+    if (existing) {
+      await ctx.db.patch(existing._id, { chatStatus: args.chatStatus });
+    } else {
+      await ctx.db.insert("conversations", { chatStatus: args.chatStatus });
+    }
+  },
+});
+
+export const getConversationStatus = query({
+  handler: async (ctx) => {
+    const record = await ctx.db.query("conversations").first();
+    return record?.chatStatus ?? "on"; // default to "on"
+  },
+});
+
