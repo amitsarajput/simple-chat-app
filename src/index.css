@@ -13,7 +13,7 @@
   --secondary-background: #f3f4f6;
   --bubbles-background: white;
   --bubbles-mine-background: #f35d1c;
-  --bubbles-mine-background-secondary: #ececec;
+  --bubbles-mine-background-secondary: #f4fff5;
   --focus-ring: #3b82f680;
 
   color-scheme: light dark;
@@ -419,6 +419,9 @@ article button span {
 }
 .subject-tabs button.active-tab {
   background-color: var(--secondary-button-active-bg);
+}
+.formulas-content{
+  border-radius: 8px;
 }
 .formulas-content hr{
   margin: 30px 0 25px;
