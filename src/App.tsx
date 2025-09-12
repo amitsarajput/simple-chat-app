@@ -332,7 +332,7 @@ export default function App() {
                       e.preventDefault(); // prevents navigation
                       sessionStorage.setItem("chat_hidden", "true");
                       await setConversationStatus({ chatStatus: "off" });
-                      alert("Equation set complete. \n\nReferences are continuously refined to support your learning journey.");
+                      alert("Stop! Equation set complete. \n\nReferences are continuously refined to support your learning journey.");
                     }}
                   >0</a></p>
               </div>
