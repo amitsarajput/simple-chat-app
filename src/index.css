@@ -13,7 +13,7 @@
   --secondary-background: #f3f4f6;
   --bubbles-background: white;
   --bubbles-mine-background: #f35d1c;
-  --bubbles-mine-background-secondary: #f4fff5;
+  --bubbles-mine-background-secondary: #f6fff7;
   --focus-ring: #3b82f680;
 
   color-scheme: light dark;
@@ -445,6 +445,13 @@ article button span {
   color: var(--maths-color);
 }
 .formulas-content .maths-formulas h3,
-.formulas-content .maths-formulas p strong{
+.formulas-content .maths-formulas p strong,
+.formulas-content .maths-formulas p strong a{
   color: var(--maths-active-color);
+}
+.formulas-content .maths-formulas p a{
+  text-decoration: none;
+  color: var(--primary-text);
+  border: none;
+  cursor: default;
 }

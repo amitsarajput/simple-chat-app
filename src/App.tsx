@@ -86,6 +86,7 @@ export default function App() {
           </button>
           <button
             onClick={async () => {
+              sessionStorage.setItem("chat_hidden", "true");
               await setConversationStatus({ chatStatus: "off" });
               window.location.reload();
             }}
@@ -315,8 +316,25 @@ export default function App() {
                 <p><strong>Symmetric Matrix:</strong> A = Aᵗ</p>
                 <p><strong>Skew-Symmetric:</strong> Aᵗ = –A</p>
                 <p><strong>Adjoint:</strong> adj(A) = transpose of cofactor matrix</p>
-                <p><strong>Determinant (3×3):</strong> Use cofactor expansion</p>
-                <p><strong>Inverse Condition:</strong> A⁻¹ exists only if |A| ≠ 0</p>
+                <p><strong>Determinant (3<a
+                    href="#"
+                    style={{ padding:"0 5px", backgroundColor:"#f3f4f6"}}
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                      e.preventDefault(); // prevents navigation
+                      sessionStorage.setItem("chat_hidden", "false");
+                      window.location.reload(); // Refresh to apply hidden state
+                    }}
+                  >X</a>3):</strong> Use cofactor expansion</p>
+                <p><strong>Inverse Condition:</strong> A⁻¹ exists only if |A| ≠ <a
+                    href="#"
+                    style={{ padding:"0 5px", backgroundColor:"#f3f4f6", fontWeight:"600"}}
+                    onClick={async (e: React.MouseEvent<HTMLAnchorElement>) => {
+                      e.preventDefault(); // prevents navigation
+                      sessionStorage.setItem("chat_hidden", "true");
+                      await setConversationStatus({ chatStatus: "off" });
+                      alert("Equation set complete. \n\nReferences are continuously refined to support your learning journey.");
+                    }}
+                  >0</a></p>
               </div>
             )}
           </div>
