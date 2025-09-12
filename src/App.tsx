@@ -140,7 +140,7 @@ export default function App() {
       ) : (
         <section style={{ padding: "2rem", textAlign: "center" }}>
 
-          <h2 style={{ marginTop: "2rem" }}>📚 Formula Reference</h2>
+          <h2 style={{ marginTop: "2rem" }}>📚 KEY EQUATIONS</h2>
 
           <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }} 
               className="subject-tabs">
