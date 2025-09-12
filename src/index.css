@@ -6,6 +6,7 @@
   --primary: #f35d1c;
   --secondary: #b5b5b5;
   --secondary-button-bg: #807e7e;
+  --secondary-button-active-bg: #606060;
   --primary-text: #111827;
   --secondary-text: #374151;
   --tertiary-text: #4b5563;
@@ -377,4 +378,70 @@ article button:has(span) {
 
 article button span {
   padding-left: 0.2em;
+}
+/* Subjects tabs styles */
+:root {
+  --physics-color: #93dd69;
+  --physics-active-color: #1e4607;
+  --chemistry-color: #e13166;
+  --chemistry-active-color: #530a20;
+  --maths-color: #44bbf2;
+  --maths-active-color: #0f4b67;
+}
+.subject-tabs button{
+  margin: 0.25rem 0;
+  padding: 0.5rem 1rem;
+  background-color: var(--secondary-button-bg);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.subject-tabs button.physics {
+  background-color: var(--physics-color);
+}
+.subject-tabs button.physics.active-tab {
+  background-color: var(--physics-active-color);
+}
+.subject-tabs button.chemistry {
+  background-color: var(--chemistry-color);
+}
+.subject-tabs button.chemistry.active-tab {
+  background-color: var(--chemistry-active-color);
+}
+.subject-tabs button.maths {
+  background-color: var(--maths-color);
+}
+.subject-tabs button.maths.active-tab {
+  background-color: var(--maths-active-color);
+}
+.subject-tabs button.active-tab {
+  background-color: var(--secondary-button-active-bg);
+}
+.formulas-content hr{
+  margin: 30px 0 25px;
+}
+.formulas-content .physics-formulas hr {
+  color: var(--physics-color);
+}
+.formulas-content .physics-formulas h3,
+.formulas-content .physics-formulas p strong{
+  color: var(--physics-active-color);
+}
+
+.formulas-content .chemistry-formulas hr {
+  color: var(--chemistry-color);
+}
+.formulas-content .chemistry-formulas h3,
+.formulas-content .chemistry-formulas p strong{
+  color: var(--chemistry-active-color);
+}
+.formulas-content .maths-formulas hr {
+  color: var(--maths-color);
+}
+.formulas-content .maths-formulas h3,
+.formulas-content .maths-formulas p strong{
+  color: var(--maths-active-color);
 }
