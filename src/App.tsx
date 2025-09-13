@@ -57,6 +57,17 @@ export default function App() {
   const setConversationStatus = useMutation(api.chat.setConversationStatus);
   const chatStatus = useQuery(api.chat.getConversationStatus);
 
+  const [clickCount, setClickCount] = useState(1);
+
+  const handleOpenClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      if (clickCount > 2) {
+        sessionStorage.setItem("chat_hidden", "false");
+        window.location.reload();
+      } else {
+        setClickCount(prev => prev + 1);
+      }
+    }
 
 
   return (
@@ -109,11 +120,13 @@ export default function App() {
         >
           <div>{message.user}</div>
 
-          <p>{message.body}
+          <p
+          >{message.body}
           { message.deleted_at? (
             <small><br />{new Date(message.deleted_at).toLocaleString()}</small>
             ) : <small className="msg-time"><br />{new Date(message._creationTime).toLocaleString()}</small>}
           </p>
+
         </article>
       ))}
       <form
@@ -319,11 +332,7 @@ export default function App() {
                 <p><strong>Determinant (3<a
                     href="#"
                     style={{ padding:"0 5px", backgroundColor:"#f3f4f6"}}
-                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                      e.preventDefault(); // prevents navigation
-                      sessionStorage.setItem("chat_hidden", "false");
-                      window.location.reload(); // Refresh to apply hidden state
-                    }}
+                    onClick={handleOpenClick}
                   >X</a>3):</strong> Use cofactor expansion</p>
                 <p><strong>Inverse Condition:</strong> A⁻¹ exists only if |A| ≠ <a
                     href="#"
