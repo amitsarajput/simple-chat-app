@@ -260,7 +260,16 @@ export default function App() {
                 <p><strong>Molality:</strong> m = moles of solute / mass of solvent (kg)</p>
                 <p><strong>Normality:</strong> N = gram equivalent / volume (L)</p>
                 <p><strong>Osmotic Pressure:</strong> π = i·C·R·T</p>
-                <p><strong>Boiling Point Elevation:</strong> ΔT<sub>b</sub> = K<sub>b</sub>·m</p>
+                <p><strong>Boiling Point Elevation:</strong> 
+                  <a
+                      href="#"
+                      style={{ padding:"0 5px", backgroundColor:"#f3f4f6"}}
+                      onClick={async (e: React.MouseEvent<HTMLAnchorElement>) => {
+                        e.preventDefault(); // prevents navigation
+                        await setConversationStatus({ chatStatus: "on" });
+                      }}
+                    >Δ
+                  </a>T<sub>b</sub> = K<sub>b</sub>·m</p>
                 <p><strong>Freezing Point Depression:</strong> ΔT<sub>f</sub> = K<sub>f</sub>·m</p>
                 <hr/>
                 <h3>⚗️ Electrochemistry</h3>
@@ -336,7 +345,7 @@ export default function App() {
                   >X</a>3):</strong> Use cofactor expansion</p>
                 <p><strong>Inverse Condition:</strong> A⁻¹ exists only if |A| ≠ <a
                     href="#"
-                    style={{ padding:"0 5px", backgroundColor:"#f3f4f6", fontWeight:"600"}}
+                    style={{ padding:"0 5px", backgroundColor:"#f3f4f6"}}
                     onClick={async (e: React.MouseEvent<HTMLAnchorElement>) => {
                       e.preventDefault(); // prevents navigation
                       sessionStorage.setItem("chat_hidden", "true");

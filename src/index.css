@@ -450,9 +450,10 @@ article button span {
 .formulas-content .maths-formulas p strong a{
   color: var(--maths-active-color);
 }
+.formulas-content .chemistry-formulas p a,
 .formulas-content .maths-formulas p a{
   text-decoration: none;
-  color: var(--primary-text);
+  color: #000000;
   border: none;
   cursor: default;
 }
