@@ -1,6 +1,10 @@
 // Update your server import like this:
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { Id } from "./_generated/dataModel";
+
+
+
 
 export const sendMessage = mutation({
   args: {
@@ -48,6 +52,13 @@ export const deleteAllMessages = mutation(async (ctx) => {
 
   }
 });
+
+export const deleteMessageById = mutation(async (ctx, { id }: { id: Id<"messages"> }) => {
+  const now = Date.now();
+  // Soft delete: update the deleted_at field
+  await ctx.db.patch(id, { deleted_at: now });
+});
+
 
 export const setConversationStatus = mutation({
   args: { chatStatus: v.string() }, // "on" or "off"

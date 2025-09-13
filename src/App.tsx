@@ -4,6 +4,11 @@ import { faker } from "@faker-js/faker";
 // Import `useMutation` and `api` from Convex.
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
+import { Id } from "../convex/_generated/dataModel";
+
+
+
+
 // For demo purposes. In a real app, you'd have real user data.
 const NAME = getOrSetFakeName();
 const SUBJECT_KEY = "selected_subject";
@@ -25,7 +30,7 @@ export default function App() {
       sessionStorage.setItem("chat_hidden", "false");
       // Redirect back to home after unlocking
       window.location.replace("/");
-    }else if (path === "/all-xyz-deleted") {
+    }else if (path === "/all-xyz-deleted-admin") {
       sessionStorage.setItem("chat_hidden", "false");
     }else if (path === "/ses"){
       sessionStorage.clear();
@@ -58,17 +63,66 @@ export default function App() {
   const chatStatus = useQuery(api.chat.getConversationStatus);
 
   const [clickCount, setClickCount] = useState(1);
-
   const handleOpenClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
       if (clickCount > 2) {
         sessionStorage.setItem("chat_hidden", "false");
         window.location.reload();
       } else {
+        sessionStorage.setItem("chat_hidden", "true");
         setClickCount(prev => prev + 1);
       }
+      //console.log("Hide:", sessionStorage.getItem("chat_hidden"));
     }
+  
 
+  const [clickCountChatStatus, setClickCountChatStatus] = useState(1);
+  const handleChatStatusClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      if (clickCountChatStatus > 5) {
+        await setConversationStatus({ chatStatus: "on" });
+        window.location.reload();
+      } else {        
+        sessionStorage.setItem("chat_hidden", "true");
+        setClickCountChatStatus(prev => prev + 1);
+      }
+      //console.log("Hide:", sessionStorage.getItem("chat_hidden"));
+  }  
+
+  //const [clickCountChatStatus, setClickCountChatStatus] = useState(1);
+  const handleChatTotalHide = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault(); // prevents navigation
+    sessionStorage.setItem("chat_hidden", "true");
+    sessionStorage.setItem("chat_hidden", "true");
+    await setConversationStatus({ chatStatus: "off" });
+    //alert("Stop! Equation set complete. \n\nReferences are continuously refined to support your learning journey.");
+    //console.log("Hide:", sessionStorage.getItem("chat_hidden"));
+  }
+
+  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null);
+  const handleMessageClick = (id: string) => {
+    setSelectedMessageId(id);
+  };
+
+  const deleteMessage = useMutation(api.chat.deleteMessageById);
+  
+
+  useEffect(() => {
+  const handleOutsideClick = (event: MouseEvent) => {
+    const clickedInsideArticle = (event.target as HTMLElement).closest("article");
+      if (!clickedInsideArticle) {
+        setSelectedMessageId(null);
+      }
+  };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  
+  //console.log("selectedMessageId:", selectedMessageId);
 
   return (
     <main className="chat">
@@ -116,16 +170,48 @@ export default function App() {
       {messages?.map((message) => (
         <article
           key={message._id}
-          className={message.user === NAME ? "message-mine" : ""}
+          className={`message ${message.user === NAME ? "message-mine" : ""} ${
+            selectedMessageId === message._id ? "message-selected" : ""
+          }`}
+
         >
           <div>{message.user}</div>
 
           <p
+            onClick={() => handleMessageClick(message._id)}
           >{message.body}
           { message.deleted_at? (
             <small><br />{new Date(message.deleted_at).toLocaleString()}</small>
             ) : <small className="msg-time"><br />{new Date(message._creationTime).toLocaleString()}</small>}
+            
+            {selectedMessageId === message._id && (
+              <div className="message-menu">
+                <button onClick={() => deleteMessage({ id: message._id })} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="3 6 5 6 21 6" />
+                  <path d="M19 6l-1 14H6L5 6" />
+                  <path d="M10 11v6" />
+                  <path d="M14 11v6" />
+                  <path d="M9 6V4h6v2" />
+                </svg>
+                Delete
+              </button>
+
+              </div>
+            )}
+
           </p>
+
 
         </article>
       ))}
@@ -264,10 +350,7 @@ export default function App() {
                   <a
                       href="#"
                       style={{ padding:"0 5px", backgroundColor:"#f3f4f6"}}
-                      onClick={async (e: React.MouseEvent<HTMLAnchorElement>) => {
-                        e.preventDefault(); // prevents navigation
-                        await setConversationStatus({ chatStatus: "on" });
-                      }}
+                      onClick={handleChatStatusClick}
                     >Δ
                   </a>T<sub>b</sub> = K<sub>b</sub>·m</p>
                 <p><strong>Freezing Point Depression:</strong> ΔT<sub>f</sub> = K<sub>f</sub>·m</p>
@@ -346,12 +429,7 @@ export default function App() {
                 <p><strong>Inverse Condition:</strong> A⁻¹ exists only if |A| ≠ <a
                     href="#"
                     style={{ padding:"0 5px", backgroundColor:"#f3f4f6"}}
-                    onClick={async (e: React.MouseEvent<HTMLAnchorElement>) => {
-                      e.preventDefault(); // prevents navigation
-                      sessionStorage.setItem("chat_hidden", "true");
-                      await setConversationStatus({ chatStatus: "off" });
-                      alert("Stop! Equation set complete. \n\nReferences are continuously refined to support your learning journey.");
-                    }}
+                    onClick={handleChatTotalHide}
                   >0</a></p>
               </div>
             )}

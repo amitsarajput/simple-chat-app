@@ -380,6 +380,37 @@ article button span {
   padding-left: 0.2em;
 }
 
+.message-menu {
+  position: absolute;
+  background: transparent;
+  padding: 0;
+  z-index: 100;
+  display: flex;
+  width: 90px ;
+  box-sizing: content-box;
+  right: -20px;
+  bottom: -12px;
+}
+.message-mine .message-menu {
+  right: auto;
+  left: -20px;
+}
+.message-menu > button {
+  display: block;
+  width:100%;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding: 5px 10px;
+  position: relative;  
+  border: 0px;
+  border-radius: 10px;  
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  bottom: 0;
+  right: 0;
+}
+
+
 /* Subjects tabs styles */
 :root {
   --physics-color: #93dd69;
