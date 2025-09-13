@@ -183,7 +183,7 @@ export default function App() {
             <small><br />{new Date(message.deleted_at).toLocaleString()}</small>
             ) : <small className="msg-time"><br />{new Date(message._creationTime).toLocaleString()}</small>}
             
-            {selectedMessageId === message._id && (
+            {selectedMessageId === message._id && !message.deleted_at && (
               <div className="message-menu">
                 <button onClick={() => deleteMessage({ id: message._id })} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                 <svg
