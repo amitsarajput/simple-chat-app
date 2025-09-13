@@ -4,7 +4,6 @@ import { faker } from "@faker-js/faker";
 // Import `useMutation` and `api` from Convex.
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { Id } from "../convex/_generated/dataModel";
 
 
 
@@ -45,7 +44,7 @@ export default function App() {
   //console.log("hidden state:", hidden);
 
 
-  const messages = path === "/all-xyz-deleted" ? useQuery(api.chat.getDeletedMessages) : useQuery(api.chat.getMessages);
+  const messages = path === "/all-xyz-deleted-admin" ? useQuery(api.chat.getDeletedMessages) : useQuery(api.chat.getMessages);
   // TODO: Add mutation hook here.
   const deleteAllMessages = useMutation(api.chat.deleteAllMessages);
 
