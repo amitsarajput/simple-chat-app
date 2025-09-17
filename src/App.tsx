@@ -17,7 +17,7 @@ const NAME_KEY = "tutorial_name";
 
 export default function App() {
 
-  const [NAME, setNAME] = useState<string>(getStoredName() ?? "");
+  const [NAME, setNAME] = useState<string>(getStoredName()||'');
 
 
   const path = window.location.pathname;
@@ -28,7 +28,7 @@ export default function App() {
   
   // Clear chat_hidden only if user visits /show-chat
   useEffect(() => {
-    if (!NAME) {
+    if (!NAME || NAME.trim() === "") {
       const newName = prompt("Enter your name:");
       if (newName && newName.trim() !== "") {
         storeName(newName.trim());
@@ -512,7 +512,7 @@ function generateFakeName(): string {
 }
 
 function getStoredName(): string | null {
-  return sessionStorage.getItem(NAME_KEY);
+  return sessionStorage.getItem(NAME_KEY) || '';
 }
 
 function storeName(NAME: string) {
