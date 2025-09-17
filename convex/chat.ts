@@ -4,35 +4,56 @@ import { v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 
 
-
-
 export const sendMessage = mutation({
   args: {
     user: v.string(),
-    body: v.string(),
+    body: v.optional(v.string()),
+    imageStorageId: v.optional(v.id("_storage")),
   },
   handler: async (ctx, args) => {
-    //console.log("This TypeScript function is running on the server.");
+    const hasText = args.body && args.body.trim() !== "";
+    const hasImage = !!args.imageStorageId;
+
+    if (!hasText && !hasImage) {
+      throw new Error("Message must contain either text or an image.");
+    }
+
     await ctx.db.insert("messages", {
       user: args.user,
-      body: args.body,
-      deleted_at: null, // default value
+      body: args.body ?? "",
+      imageStorageId: args.imageStorageId ?? undefined,
+      deleted_at: null,
     });
   },
 });
+
 // Add the following function to the file:
 export const getMessages = query({
   args: {},
   handler: async (ctx) => {
-    // Get most recent messages first
-    const messages = await ctx.db.query("messages")
-    .filter((q) => q.eq(q.field("deleted_at"), null))
-    .order("desc")
-    .take(100);
-    // Reverse the list so that it's in a chronological order.
-    return messages.reverse();
+    const messages = await ctx.db
+      .query("messages")
+      .filter((q) => q.eq(q.field("deleted_at"), null))
+      .order("desc")
+      .take(100);
+
+    const enriched = await Promise.all(
+      messages.map(async (message) => {
+        const imageUrl = message.imageStorageId
+          ? await ctx.storage.getUrl(message.imageStorageId)
+          : null;
+
+        return {
+          ...message,
+          imageUrl,
+        };
+      })
+    );
+
+    return enriched.reverse(); // chronological order
   },
 });
+
 
 export const getDeletedMessages = query(async (ctx) => {
   return await ctx.db
@@ -79,4 +100,13 @@ export const getConversationStatus = query({
     return record?.chatStatus ?? "on"; // default to "on"
   },
 });
+
+// Generate a secure upload URL
+export const generateUploadUrl = mutation({
+  handler: async (ctx) => {
+    return await ctx.storage.generateUploadUrl();
+  },
+});
+
+
 

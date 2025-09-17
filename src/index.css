@@ -144,6 +144,9 @@ button {
   padding-left: 1.2em;
   font-weight: 300;
 }
+.chat header h1,.chat header p {
+  cursor: default;
+}
 
 .chat header p::before,
 .chat header p::after {
@@ -202,6 +205,7 @@ button {
   padding-right: calc(16px + 10vw);
   animation: 0.15s ease-in-out message;
   box-sizing: content-box;
+  cursor: default;
 }
 
 @media (prefers-reduced-motion) {
@@ -303,8 +307,8 @@ button {
   border: 0;
   background: transparent;
   font-size: 18px;
-  padding-left: 20px;
-  padding-right: 72px;
+  padding-left: 12px;
+  padding-right: 82px;
   font-family: inherit;
   border: 3px solid transparent;
   border-radius: 16px;
@@ -336,24 +340,38 @@ button {
   border: 0;
   border-radius: 50%;
   position: absolute;
-  right: 16px;
+  left: auto;
   top: 50%;
   transform: translateY(-50%);
   color: white;
   font-size: 0;
   transition: 0.15s ease-in-out opacity;
-
-  background-color: var(--secondary-button-bg);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='white' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5' /%3E%3C/svg%3E%0A");
-  background-size: 24px;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 .chat button:disabled {
   opacity: 0.7;
 }
-
+.chat form > button.send-button{  
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--secondary-button-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='white' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5' /%3E%3C/svg%3E%0A");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.chat form > button.image-upload-button{
+  right: 53px;  
+  height: 30px;
+  width: 30px;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  
+}
 article button {
   position: absolute;
   bottom: -0.5em; 
